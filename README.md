@@ -4,7 +4,7 @@ This repository provides executable Python scripts for constructing the monthly 
 
 ## Requirements
 
-Use Python 3.10 or later with the following packages:
+Use Python 3.11 or later with the following packages:
 
 ```bash
 pip install numpy rasterio scipy scikit-learn tqdm climate_indices pyvinecopulib
@@ -17,7 +17,7 @@ pip install numpy rasterio scipy scikit-learn tqdm climate_indices pyvinecopulib
 1. Calculate SPI and SRI at 1-, 3-, 6-, and 12-month accumulation windows with `SPI-SRI.py`.
 2. Use `xSPI_PCA.py` to integrate the four SPI layers into xSPI. Run the same script with SRI folders and `--output-prefix xSRI` to create xSRI.
 3. Calculate SWI from monthly soil-moisture layers with `SWI.py`.
-4. Derive groundwater storage deviation (GSD) and the Groundwater Drought Index (GGDI) from monthly GWSA layers with `Cal_GGDI.py`.
+4. Derive groundwater storage deviation (GSD) and the Groundwater Drought Index (GGDI) from monthly GWSA layers with `GGDI.py`.
 5. Harmonize xSPI, xSRI, SWI, and GGDI to the 1 km xSPI grid, then calculate pixel-wise monthly VCDI with `R-vine_VCDI.py`.
 6. Normalize VCDI, LST, and kNDVI using fixed minimum and maximum values from the full study period, resample VCDI and LST to the 250 m kNDVI grid, and calculate VDRI with `VDRI.py`.
 7. Use `MTRT.py` to identify VCDI-based drought events and calculate drought duration, severity, intensity, and event count.
@@ -29,7 +29,7 @@ All scripts use monthly GeoTIFF files. The study period is 2000-2022 unless othe
 | Variable                    | Required filename pattern                                                             | Notes                                                                                    |
 | --------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | Soil moisture               | `SM_YYYY_MM.tif`                                                                    | Used by`SWI.py`.                                                                       |
-| Groundwater storage anomaly | `GWSA_YYYY_MM.tif`                                                                  | Used by`Cal_GGDI.py`.                                                                  |
+| Groundwater storage anomaly | `GWSA_YYYY_MM.tif`                                                                  | Used by`GGDI.py`.                                                                  |
 | xSPI, xSRI, SWI, GGDI       | `xSPI_YYYY_MM.tif`, `xSRI_YYYY_MM.tif`, `SWI_YYYY_MM.tif`, `GGDI_YYYY_MM.tif` | Used by`R-vine_VCDI.py`.                                                               |
 | VCDI                        | `VCDI_YYYY_MM.tif`                                                                  | Produced by`R-vine_VCDI.py`; used for event analysis after any required normalization. |
 
@@ -71,7 +71,7 @@ Use the same command for xSRI after replacing the four input folders and setting
 
 Calculates SWI independently for each valid pixel. Monthly soil-moisture values are normalized using the pixel-specific minimum and maximum over 2000-2022 with `epsilon = 1e-10`. The normalized series is then filtered recursively using an exponential filter with `T = 30 days`, `delta_t = 30 days`, and initial condition `SWI(t1) = ms(t1)`. The script also writes `SM_min.tif` and `SM_max.tif`.
 
-### `Cal_GGDI.py`
+### `GGDI.py`
 
 Calculates monthly GSD and GGDI from monthly GWSA GeoTIFF files. For each calendar month, the script subtracts the monthly climatological GWSA mean and standardizes the resulting GSD series. The GWSA input must already be derived as:
 
