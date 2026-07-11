@@ -125,5 +125,3 @@ Identifies pixel-wise VCDI drought events using Multi-Threshold Run Theory and w
 ## Reproducibility notes
 
 The scripts implement the dataset-generation algorithms and retain only the parameters required to reproduce the published workflow. They do not include proprietary local paths or the original input data. Input data must be obtained from their cited providers and used according to their respective licences and terms of use.
-
-The final VDRI is distributed on a 250 m kNDVI-based fusion grid. Its fine-scale spatial texture is mainly associated with native 250 m kNDVI variability, whereas hydroclimatic information inherited from VCDI retains the spatial support of its source datasets. Users conducting local analyses should consider VCDI and VDRI jointly, apply suitable land-cover masks, and aggregate VDRI where necessary to match the spatial support of the research question.
